@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #00796b;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #00796b;
+        }
+        input[type="text"] {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 2px solid #b2dfdb;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            background-color: #e0f2f1;
+        }
+        input[type="text"]:focus {
+            border-color: #00796b;
+            background-color: #ffffff;
+        }
+        .submit-button {
+            position: relative;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #00796b;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .submit-button:hover {
+            background-color: #004d40;
+            box-shadow: 0 0 20px rgba(0, 150, 136, 0.7);
+        }
+        .submit-button::before {
+            content: "\2605";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .submit-button:hover::before {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.2);
+        }
+        .prediction {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            color: #004d40;
+        }
+        .bold-text {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predictive Maintenance</h1>
+        <form action="/predict" method="post">
+            <label for="air_temp">Air Temperature:</label>
+            <input type="text" id="air_temp" name="Air temperature" value="{{ data.get('Air temperature', '') }}" placeholder="In Kelvin">
+
+            <label for="process_temp">Process Temperature:</label>
+            <input type="text" id="process_temp" name="Process temperature" value="{{ data.get('Process temperature', '') }}" placeholder="In Kelvin">
+
+            <label for="rot_speed">Rotational Speed:</label>
+            <input type="text" id="rot_speed" name="Rotational speed" value="{{ data.get('Rotational speed', '') }}" placeholder="Revolutions per minute (rpm)">
+
+            <label for="torque">Torque:</label>
+            <input type="text" id="torque" name="Torque" value="{{ data.get('Torque', '') }}" placeholder="Newton-meters">
+
+            <label for="tool_wear">Tool Wear:</label>
+            <input type="text" id="tool_wear" name="Tool wear" value="{{ data.get('Tool wear', '') }}" placeholder="Additional minutes, the tool can be used for">
+
+            <input type="submit" value="Predict" class="submit-button bold-text">
+        </form>
+        {% if prediction_text %}
+            <div class="prediction">
+                <h2>{{ prediction_text }}</h2>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
